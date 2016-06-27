@@ -1,5 +1,6 @@
 var path = require('path');
 var HtmlwebpackPlugin = require('html-webpack-plugin');
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
 //定义了一些文件夹的路径
 var ROOT_PATH = path.resolve(__dirname);
 var APP_PATH = path.resolve(ROOT_PATH, 'app');
@@ -29,8 +30,8 @@ module.exports = {
         include: APP_PATH
       },
       {
-        test: /\.scss$/,
-        loaders: ['style', 'css', 'sass'],
+        test: /\.less$/,
+        loader: ExtractTextPlugin.extract("style-loader","css-loader!autoprefixer-loader!less-loader"),
         include: APP_PATH
       },
       {
@@ -47,6 +48,9 @@ module.exports = {
   plugins: [
     new HtmlwebpackPlugin({
       title: 'Hello World app'
-    })
+    }),
+    new ExtractTextPlugin("/css/[name].css",{
+            allChunks: true
+        })
   ]
 };
